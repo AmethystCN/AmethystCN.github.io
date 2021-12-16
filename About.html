@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Amethyst's Cloud</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <link href="../fonts/fonts.css" rel="stylesheet">
+  <link rel="shortcut icon" href="favicon.ico" />
+  <body bgcolor="#121314">
+  <style>
+    body {
+      font-family: 'Rubik', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      font-size: calc(10px + 0.33vw);
+      -webkit-font-smoothing: antialiased;
+      padding: 5vh 10vw;
+      color: #ffffff;
+    }
+    n {
+      font-size: 4.5em;
+      font-weight: 500;
+      margin-bottom: 0;
+    }
+    p {
+      font-size: 1.6em;
+      font-weight: 300;
+      line-height: 1.4;
+      max-width: 26em;
+    }
+    a {
+      text-decoration: none;
+      color: #ffffff;
+      position: relative;
+    }
+    a:after {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      top: 60%;
+      left: -0.1em;
+      right: -0.1em;
+      bottom: 0;
+      transition: top 200ms cubic-bezier(0, .8, .13, 1);
+      background-color: rgba(255,255,255,0.5);
+    }
+    a:hover:after {
+      top: 0%;
+    }
+    body2 {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+    #cas {
+      position: absolute;
+      left:0;
+      top:0;
+      bottom:0;
+      right:0;
+      margin:auto;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      background-color: rgba(0,0,0);
+    }
+  </style>
+</head>
+<body>
+  <n>AmethystCN</n>
+  <p style="font-weight:500; font-size:2.2em">
+     An ordinary Minecraft lover!
+  </p>
+  <p>
+    Welcome to my homepage, hope you can find some fun things! This is my
+    <a href="https://space.bilibili.com/1825866050" target="_top" class="main">BiliBili </a>
+      account. You can follow me to learn how to paint textures! Remember 
+     <a href="https://www.mcbbs.net/home.php?mod=space&uid=3257689" target="_top" class="main">Mcbbs</a> is a good thing! If you like me, you can consider encouraging me in  <a href="https://afdian.net/@AmethystShop" target="_top" class="main">afdian</a>!
+  </p>
+  <p>
+    The following is about the 
+    <a href="https://amethystcn.github.io/Log4j.html" target="_top" class="main">Log4j </a>,
+    project I recently researched! Are you interested?
+  </p>
+  <p>
+    Here is a humble 
+    <a href="https://域名或IP地址:端口号" target="_top" class="main">AmethystServer</a> promotion but it only opens during summer vacation! But you can join my 
+    <a href="https://jq.qq.com/?_wv=1027&k=xvQsr5dq" target="_top" class="main">chat</a> group!
+  </p>
+    <p>
+    This is all my chat groups. Welcome to join!
+  </p>
+      <p>
+    <a href="https://jq.qq.com/?_wv=1027&k=xvQsr5dq" target="_top" class="main">Amethyst x1 Server&Chat</a> <a href="https://afdian.net/@AmethystShop" target="_top" class="main"> Amethyst x2 $1 afdian</a> 
+  </p>
+      <p>
+    <a href="https://jq.qq.com/?_wv=1027&k=NW0qJghR" target="_top" class="main">Amethyst x3 Mod&Chat</a>
+  </p>
+<body2>
+<canvas id="cas"></canvas>
+<script>
+  var canvas = document.getElementById("cas");
+  var ctx = canvas.getContext("2d");
+
+  resize();
+  window.onresize = resize;
+
+  function resize() {
+    canvas.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+    canvas.height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+  }
+
+  var RAF = (function() {
+    return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || function(callback) {
+          window.setTimeout(callback, 1000 / 60);
+        };
+  })();
+
+  var warea = {x: null, y: null, max: 20000};
+  window.onmousemove = function(e) {
+    e = e || window.event;
+
+    warea.x = e.clientX;
+    warea.y = e.clientY;
+  };
+  window.onmouseout = function(e) {
+    warea.x = null;
+    warea.y = null;
+  };
+
+  var dots = [];
+  for (var i = 0; i < 300; i++) {
+    var x = Math.random() * canvas.width;
+    var y = Math.random() * canvas.height;
+    var xa = Math.random() * 2 - 1;
+    var ya = Math.random() * 2 - 1;
+
+    dots.push({
+      x: x,
+      y: y,
+      xa: xa,
+      ya: ya,
+      max: 6000
+    })
+  }
+  setTimeout(function() {
+    animate();
+  }, 100);
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    var ndots = [warea].concat(dots);
+
+    dots.forEach(function(dot) {
+      dot.x += dot.xa;
+      dot.y += dot.ya;
+      dot.xa *= (dot.x > canvas.width || dot.x < 0) ? -1 : 1;
+      dot.ya *= (dot.y > canvas.height || dot.y < 0) ? -1 : 1;
+
+      ctx.fillRect(dot.x - 0.5, dot.y - 0.5, 1, 1);
+
+      for (var i = 0; i < ndots.length; i++) {
+        var d2 = ndots[i];
+
+        if (dot === d2 || d2.x === null || d2.y === null) continue;
+
+        var xc = dot.x - d2.x;
+        var yc = dot.y - d2.y;
+
+        var dis = xc * xc + yc * yc;
+
+        var ratio;
+        if (dis < d2.max) {
+          if (d2 === warea && dis > (d2.max / 2)) {
+            dot.x -= xc * 0.03;
+            dot.y -= yc * 0.03;
+          }
+
+          ratio = (d2.max - dis) / d2.max;
+
+          ctx.beginPath();
+          ctx.lineWidth = ratio / 2;
+          ctx.strokeStyle = 'rgba(79,192,141,' + (ratio + 0.2) + ')';
+          ctx.moveTo(dot.x, dot.y);
+          ctx.lineTo(d2.x, d2.y);
+          ctx.stroke();
+        }
+      }
+
+      ndots.splice(ndots.indexOf(dot), 1);
+    });
+
+    RAF(animate);
+  }
+</script>
+</body2>
+</body>
+</html>
